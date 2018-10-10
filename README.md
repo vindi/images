@@ -1,4 +1,4 @@
-![Vindi - Recorrênica](https://vindi-blog.s3.amazonaws.com/wp-content/uploads/2017/10/logo-vindi-1.png)
+![Vindi - Recorrênica](https://blog.vindi.com.br/wp-content/uploads/2018/08/logo-vindi.png)
 
 # Vindi 
 
