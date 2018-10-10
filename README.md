@@ -13,6 +13,14 @@ Imagens utilizadas para testes funcionais e unitários no ambiente de Integraç�
 docker network create webproxy
 ```
 
+### Instalar VNC viewer para debug
+
+```
+wget https://www.realvnc.com/download/file/viewer.files/VNC-Viewer-6.18.907-Linux-x64.deb
+sudo dpkg -i VNC-Viewer-6.18.907-Linux-x64.deb
+```
+
+
 ### docker-compose.yml:
 
 ```
