@@ -1,4 +1,4 @@
-[Vindi - Recorrênica](https://blog.vindi.com.br/wp-content/uploads/2018/08/logo-vindi.png)
+![Vindi - Recorrênica](https://vindi-blog.s3.amazonaws.com/wp-content/uploads/2017/10/logo-vindi-1.png)
 
 #### Vindi - Magento Recorrente
 
@@ -67,6 +67,9 @@ networks:
 ```
 composer test
 ```
+
+# Dúvidas
+Caso necessite de informações sobre a plataforma ou API por favor siga através do canal [Atendimento Vindi](http://atendimento.vindi.com.br/hc/pt-br)
 
 # Créditos
 - [Vindi](https://github.com/vindi)
