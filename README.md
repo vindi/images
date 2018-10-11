@@ -51,7 +51,6 @@ networks:
             name: webproxy
 ```
 
-
 ## Créditos
 - [Vindi](https://github.com/vindi)
 - [Todos os Contribuidores](https://github.com/vindi/vindi-magento/contributors)

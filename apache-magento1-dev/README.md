@@ -84,7 +84,8 @@ networks:
 docker-compose up -d
 ```
 
-### Instalar o magento na pasta html criada
+### Instalar o magento na pasta html criada o arquivo magento.tar.gz se encontra no link abaixo
+https://github.com/vindi/images/tree/feature/apache-magento1-dev
 ```
 cd html
 tar -xzvf magento.tar.gz
