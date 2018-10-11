@@ -23,23 +23,11 @@ docker network create webproxy
 ```
 version: '3.3'
 services:
-    selenium:
-        image: selenium/hub
+    chrome:
+        image: selenium/standalone-chrome
         container_name: selenium
         ports:
         - "4444"
-    chrome:
-        image: selenium/node-chrome-debug
-        container_name: chrome
-        depends_on:
-        - selenium
-        links:
-        - selenium:hub
-        ports:
-        - "5900:5900"
-        environment:
-        - HUB_HOST=selenium
-        - HUB_PORT=4444
     magento1db:
         image: vindi/mysql-magento1-ci
         container_name: magento1_db
@@ -50,12 +38,10 @@ services:
         container_name: vindi.local
         depends_on:
         - magento1db
-        - chrome
         ports:
         - "443:443"
         links:
         - magento1db:mysql
-        - chrome
 networks:
     default:
         external:
