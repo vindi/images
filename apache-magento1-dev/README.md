@@ -13,6 +13,7 @@ Imagens utilizadas para desenvolvimento e criação de testes funcionais e unit�
 docker network create webproxy
 ```
 
+
 ### Instalar VNC viewer para debug
 
 ```
@@ -20,10 +21,20 @@ wget https://www.realvnc.com/download/file/viewer.files/VNC-Viewer-6.18.907-Linu
 sudo dpkg -i VNC-Viewer-6.18.907-Linux-x64.deb
 ```
 
+
 ### É necessario substituir a chave API no arquivo **.env**
 
 ```
 API_KEY=digite aqui sua chave API
+```
+
+
+### Instalar o modgit
+
+```
+curl https://raw.githubusercontent.com/jreinke/modgit/master/modgit > modgit
+chmod +x modgit
+sudo mv modgit /usr/local/bin
 ```
 
 
@@ -65,6 +76,38 @@ networks:
     external:
       name: webproxy
 ```
+
+### Executar o docker compose na pasta onde esta o docker-compose.yml
+
+```
+docker-compose up -d
+```
+
+### Instalar o magento na pasta html criada
+```
+cd html
+tar -xzvf magento.tar.gz
+rm magento.tar.gz
+
+```
+
+
+### Instalar o Vindi magento na pasta raiz do magento que será html
+
+```
+modgit init
+modgit -b homolog add vindi https://github.com/vindi/vindi-magento.git
+```
+
+
+### Inspecionar o container do apache para saber qual é o IP
+
+```
+docker inspect vindi.local
+```
+
+### Com o IP do container agora é possível executar o VNC viewer colocando o IP e depois a senha "secret"
+
 
 ## Créditos
 - [Vindi](https://github.com/vindi)
