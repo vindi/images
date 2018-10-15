@@ -14,7 +14,7 @@ services:
     image: vindi/apache-woocommerce-ci
     container_name: vindi.local
     depends_on:
-    - "wordpressdb"
+    - wordpressdb
     ports:
     - "443:443"
     links:
