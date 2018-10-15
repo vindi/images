@@ -6,5 +6,6 @@ set -e
 wget https://github.com/vindi/vindi-woocommerce-subscriptions/archive/develop.zip
 wp plugin install ./develop.zip --activate --allow-root
 rm develop.zip
+wp plugin update --all --allow-root
 
 exec "$@"
