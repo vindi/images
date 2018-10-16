@@ -7,6 +7,15 @@ RUN apt-get install -y apt-utils libfreetype6-dev libjpeg62-turbo-dev
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 RUN docker-php-ext-install gd
 
+# Install wget
+RUN apt-get install -y wget
+
+# Install nano
+RUN apt-get install -y nano
+
+# Install vim
+RUN apt-get install -y vim
+
 # Install MCrypt
 RUN apt-get install -y libmcrypt-dev
 RUN docker-php-ext-install mcrypt
@@ -49,6 +58,11 @@ RUN docker-php-ext-install xsl
 #Install xdebug
 RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
+
+# Install codeception
+RUN wget https://codeception.com/codecept.phar
+RUN chmod +x codecept.phar
+RUN mv codecept.phar /usr/local/bin/codecept
 
 # Additional PHP ini configuration
 COPY ./php.ini /usr/local/etc/php/conf.d/
