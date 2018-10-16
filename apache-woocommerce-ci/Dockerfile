@@ -51,11 +51,17 @@ RUN docker-php-ext-install xsl
 # Install wget
 RUN apt-get install -y wget
 
+# Install codeception
+RUN wget https://codeception.com/codecept.phar
+RUN chmod +x codecept.phar
+RUN mv codecept.phar /usr/local/bin/codecept
+
 # Additional PHP ini configuration
 COPY ./php.ini /usr/local/etc/php/conf.d/
 COPY ./wordpress.tar.gz /var/www/html/
 COPY ./docker-entrypoint.sh /usr/local/bin/
 COPY ./wait-for-it.sh /wait-for-it.sh
+
 RUN chmod +x /wait-for-it.sh
 
 # Create certificate
