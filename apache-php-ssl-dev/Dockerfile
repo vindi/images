@@ -7,6 +7,9 @@ RUN apt-get install -y apt-utils libfreetype6-dev libjpeg62-turbo-dev
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 RUN docker-php-ext-install gd
 
+# create an user
+RUN useradd -c 'Vindi user' -m -d /home/vindi -s /bin/bash vindi
+
 # Install wget
 RUN apt-get install -y wget
 
