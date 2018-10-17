@@ -34,6 +34,21 @@ RUN docker-php-ext-install mysqli pdo_mysql
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
+# Install wp-cli
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN chmod +x wp-cli.phar
+RUN mv wp-cli.phar /usr/local/bin/wp
+
+# Install codeception
+RUN wget https://codeception.com/codecept.phar
+RUN chmod +x codecept.phar
+RUN mv codecept.phar /usr/local/bin/codecept
+
+# Install modgit
+RUN curl https://raw.githubusercontent.com/jreinke/modgit/master/modgit > modgit
+RUN chmod +x modgit
+RUN mv modgit /usr/local/bin
+
 # Environment variable
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
@@ -61,11 +76,6 @@ RUN docker-php-ext-install xsl
 #Install xdebug
 RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
-
-# Install codeception
-RUN wget https://codeception.com/codecept.phar
-RUN chmod +x codecept.phar
-RUN mv codecept.phar /usr/local/bin/codecept
 
 # Additional PHP ini configuration
 COPY ./php.ini /usr/local/etc/php/conf.d/
