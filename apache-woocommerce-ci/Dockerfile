@@ -8,6 +8,8 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 COPY ./wordpress.tar.gz /var/www/html/
 COPY ./php.ini /usr/local/etc/php/conf.d/
 COPY ./docker-entrypoint.sh /usr/local/bin/
+COPY ./wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh
 
 ## Install GD
 RUN apt-get update
@@ -159,4 +161,5 @@ RUN	chown -R www-data:www-data /var/www/html
 
 EXPOSE 443
 
+ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["apache2-foreground"]
