@@ -161,9 +161,10 @@ RUN	chown -R www-data:www-data /var/www/html
 RUN set -e
 RUN cd /var/www/html/wp-content/plugins
 RUN git clone -b develop https://github.com/vindi/vindi-woocommerce-subscriptions.git
-RUN cd /var/www/html
 
 WORKDIR /var/www/html/wp-content/plugins/vindi-woocommerce-subscriptions
+
+RUN composer install
 
 EXPOSE 443
 
