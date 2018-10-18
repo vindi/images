@@ -142,9 +142,6 @@ ENV WORDPRESS_DEBUG 1
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
 
-WORKDIR /var/www/html
-
-
 RUN set -ex
 RUN tar xf wordpress.tar.gz
 RUN rm wordpress.tar.gz
@@ -160,6 +157,13 @@ RUN { \
     } > /var/www/html/.htaccess
 RUN	chown -R www-data:www-data /var/www/html
 
+
+RUN set -e
+RUN cd /var/www/html/wp-content/plugins
+RUN git clone -b develop https://github.com/vindi/vindi-woocommerce-subscriptions.git
+RUN cd /var/www/html
+
+WORKDIR /var/www/html/wp-content/plugins/vindi-woocommerce-subscriptions
 
 EXPOSE 443
 
