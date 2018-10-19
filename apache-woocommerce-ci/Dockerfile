@@ -11,14 +11,45 @@ COPY ./docker-entrypoint.sh /usr/local/bin/
 COPY ./wait-for-it.sh /wait-for-it.sh
 RUN chmod +x /wait-for-it.sh
 
-## Install GD
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php
+RUN mv composer.phar /usr/local/bin/composer
+
+# Install wp-cli
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN chmod +x wp-cli.phar
+RUN mv wp-cli.phar /usr/local/bin/wp
+
+# Install codeception
+RUN curl -O https://codeception.com/codecept.phar
+RUN chmod +x codecept.phar
+RUN mv codecept.phar /usr/local/bin/codecept
+
+RUN tar xf wordpress.tar.gz
+RUN rm wordpress.tar.gz
+
+# Update
 RUN apt-get update
-RUN apt-get install -y apt-utils libfreetype6-dev libjpeg62-turbo-dev
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
-RUN docker-php-ext-install gd
+
+# Install Git
+RUN apt-get install -y git
 
 # Install wget
 RUN apt-get install -y wget
+
+# Install zip
+RUN apt-get install -y zip
+
+# Install unzip
+RUN apt-get install -y unzip
+
+# Install MySQL CLI Client
+RUN apt-get install -y mysql-client
+
+## Install GD
+RUN apt-get install -y apt-utils libfreetype6-dev libjpeg62-turbo-dev
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
+RUN docker-php-ext-install gd
 
 # Install MCrypt
 RUN apt-get install -y libmcrypt-dev
@@ -41,38 +72,16 @@ RUN docker-php-ext-install soap
 # Install opcache
 RUN docker-php-ext-install opcache
 
-# Install PHP zip extension
-RUN apt-get install -y zip
-RUN apt-get install -y unzip
-RUN docker-php-ext-install zip
-
-# Install Git
-RUN apt-get install -y git
-
 # Install xsl
 RUN apt-get install -y libxslt-dev
 RUN docker-php-ext-install xsl
 
-# Install MySQL CLI Client
-RUN apt-get install -y mysql-client
+# Install PHP zip extension
+RUN docker-php-ext-install zip
+
 
 # Configure PHP date.timezone
 RUN echo "date.timezone = America/Sao_Paulo" > /usr/local/etc/php/conf.d/timezone.ini
-
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php
-RUN mv composer.phar /usr/local/bin/composer
-
-# Install wp-cli
-RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-RUN chmod +x wp-cli.phar
-RUN mv wp-cli.phar /usr/local/bin/wp
-
-# Install codeception
-RUN curl -O https://codeception.com/codecept.phar
-RUN chmod +x codecept.phar
-RUN mv codecept.phar /usr/local/bin/codecept
-
 
 # Create certificate
 RUN openssl req \
@@ -135,10 +144,6 @@ RUN { \
 
 RUN a2enconf "document-root-directory.conf"
 
-RUN set -ex
-RUN tar xf wordpress.tar.gz
-RUN rm wordpress.tar.gz
-
 RUN { \
         echo "<IfModule mod_rewrite.c>"; \
         echo "	RewriteEngine On"; \
@@ -150,14 +155,12 @@ RUN { \
         echo "</IfModule>"; \
     } > /var/www/html/.htaccess
 
-WORKDIR /var/www/html/wp-content/plugins
-RUN wget https://github.com/vindi/vindi-woocommerce-subscriptions/archive/develop.tar.gz
-RUN mkdir vindi-woocommerce-subscriptions && tar xf develop.tar.gz -C vindi-woocommerce-subscriptions --strip-components 1
-RUN rm develop.tar.gz
+RUN chmod -R 777 *
+RUN git clone -b develop https://github.com/vindi/vindi-woocommerce-subscriptions.git wp-content/plugins/vindi-woocommerce-subscriptions
+
 WORKDIR /var/www/html/wp-content/plugins/vindi-woocommerce-subscriptions
 RUN composer install
 RUN	chown -R www-data:www-data /var/www/html
-
 
 EXPOSE 443
 
