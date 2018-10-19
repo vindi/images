@@ -1,8 +1,52 @@
 FROM php:7.0-apache
 MAINTAINER Vindi<comunidade@vindi.com.br>
 
-# Install GD
+# Variable
+ENV COMPOSER_ALLOW_SUPERUSER 1
+
+# Additional PHP ini configuration
+COPY ./wordpress.tar.gz /var/www/html/
+COPY ./php.ini /usr/local/etc/php/conf.d/
+COPY ./docker-entrypoint.sh /usr/local/bin/
+COPY ./wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php
+RUN mv composer.phar /usr/local/bin/composer
+
+# Install wp-cli
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN chmod +x wp-cli.phar
+RUN mv wp-cli.phar /usr/local/bin/wp
+
+# Install codeception
+RUN curl -O https://codeception.com/codecept.phar
+RUN chmod +x codecept.phar
+RUN mv codecept.phar /usr/local/bin/codecept
+
+RUN tar xf wordpress.tar.gz
+RUN rm wordpress.tar.gz
+
+# Update
 RUN apt-get update
+
+# Install Git
+RUN apt-get install -y git
+
+# Install wget
+RUN apt-get install -y wget
+
+# Install zip
+RUN apt-get install -y zip
+
+# Install unzip
+RUN apt-get install -y unzip
+
+# Install MySQL CLI Client
+RUN apt-get install -y mysql-client
+
+## Install GD
 RUN apt-get install -y apt-utils libfreetype6-dev libjpeg62-turbo-dev
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 RUN docker-php-ext-install gd
@@ -18,15 +62,6 @@ RUN docker-php-ext-install intl
 # Install Mysql
 RUN docker-php-ext-install mysqli pdo_mysql
 
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php
-RUN mv composer.phar /usr/local/bin/composer
-
-# Install wp-cli
-RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-RUN chmod +x wp-cli.phar
-RUN mv wp-cli.phar /usr/local/bin/wp
-
 # Install mbstring
 RUN docker-php-ext-install mbstring
 
@@ -37,26 +72,16 @@ RUN docker-php-ext-install soap
 # Install opcache
 RUN docker-php-ext-install opcache
 
-# Install PHP zip extension
-RUN apt-get install -y zip unzip
-RUN docker-php-ext-install zip
-
-# Install Git
-RUN apt-get install -y git
-
 # Install xsl
 RUN apt-get install -y libxslt-dev
 RUN docker-php-ext-install xsl
 
-# Install wget
-RUN apt-get install -y wget
+# Install PHP zip extension
+RUN docker-php-ext-install zip
 
-# Additional PHP ini configuration
-COPY ./php.ini /usr/local/etc/php/conf.d/
-COPY ./wordpress.tar.gz /var/www/html/
-COPY ./docker-entrypoint.sh /usr/local/bin/
-COPY ./wait-for-it.sh /wait-for-it.sh
-RUN chmod +x /wait-for-it.sh
+
+# Configure PHP date.timezone
+RUN echo "date.timezone = America/Sao_Paulo" > /usr/local/etc/php/conf.d/timezone.ini
 
 # Create certificate
 RUN openssl req \
@@ -119,29 +144,6 @@ RUN { \
 
 RUN a2enconf "document-root-directory.conf"
 
-
-# Install MySQL CLI Client
-RUN apt-get install -y mysql-client
-
-# Configure PHP date.timezone
-RUN echo "date.timezone = America/Sao_Paulo" > /usr/local/etc/php/conf.d/timezone.ini
-
-
-ENV WORDPRESS_VERSION 4.9.8
-ENV WORDPRESS_DB_HOST wordpress_db
-ENV WORDPRESS_DB_USER root
-ENV WORDPRESS_DB_PASSWORD 123
-ENV WORDPRESS_DB_NAME wordpress
-ENV WORDPRESS_DEBUG 1
-ENV COMPOSER_ALLOW_SUPERUSER 1
-
-
-WORKDIR /var/www/html
-
-
-RUN set -ex
-RUN tar xf wordpress.tar.gz
-RUN rm wordpress.tar.gz
 RUN { \
         echo "<IfModule mod_rewrite.c>"; \
         echo "	RewriteEngine On"; \
@@ -152,8 +154,13 @@ RUN { \
         echo "	RewriteRule . /index.php [L]"; \
         echo "</IfModule>"; \
     } > /var/www/html/.htaccess
-RUN	chown -R www-data:www-data /var/www/html
 
+RUN chmod -R 777 *
+RUN git clone -b develop https://github.com/vindi/vindi-woocommerce-subscriptions.git wp-content/plugins/vindi-woocommerce-subscriptions
+
+WORKDIR /var/www/html/wp-content/plugins/vindi-woocommerce-subscriptions
+RUN composer install
+RUN	chown -R www-data:www-data /var/www/html
 
 EXPOSE 443
 

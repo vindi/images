@@ -14,7 +14,7 @@ services:
     ports:
     - "3306"
   web:
-    image: vindi/apache-magento1-dev
+    image: vindi/apache-php-ssl-dev
     container_name: vindi.local
     env_file:
       - .env

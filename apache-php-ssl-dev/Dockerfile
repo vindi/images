@@ -7,6 +7,18 @@ RUN apt-get install -y apt-utils libfreetype6-dev libjpeg62-turbo-dev
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 RUN docker-php-ext-install gd
 
+# create an user
+RUN useradd -c 'Vindi user' -m -d /home/vindi -s /bin/bash vindi
+
+# Install wget
+RUN apt-get install -y wget
+
+# Install nano
+RUN apt-get install -y nano
+
+# Install vim
+RUN apt-get install -y vim
+
 # Install MCrypt
 RUN apt-get install -y libmcrypt-dev
 RUN docker-php-ext-install mcrypt
@@ -21,6 +33,21 @@ RUN docker-php-ext-install mysqli pdo_mysql
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
+
+# Install wp-cli
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN chmod +x wp-cli.phar
+RUN mv wp-cli.phar /usr/local/bin/wp
+
+# Install codeception
+RUN wget https://codeception.com/codecept.phar
+RUN chmod +x codecept.phar
+RUN mv codecept.phar /usr/local/bin/codecept
+
+# Install modgit
+RUN curl https://raw.githubusercontent.com/jreinke/modgit/master/modgit > modgit
+RUN chmod +x modgit
+RUN mv modgit /usr/local/bin
 
 # Environment variable
 ENV COMPOSER_ALLOW_SUPERUSER 1
