@@ -131,7 +131,6 @@ RUN { \
         echo "      SSLCertificateChainFile /etc/ssl/certs/apache.crt"; \
         echo "      LogLevel warn"; \
         echo "      ErrorLog /var/www/html/error.log"; \
-        echo "      CustomLog /var/www/html/web.log"; \
         echo "	</VirtualHost>"; \
         echo "</IfModule>"; \
     }  > /etc/apache2/sites-available/default-ssl.conf
