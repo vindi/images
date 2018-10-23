@@ -30,6 +30,7 @@ services:
         image: selenium/standalone-chrome-debug
         container_name: chrome
         ports:
+        - "4444"
         - "5900:5900"
     db:
         image: vindi/mysql- <plugin-vindi> -ci
