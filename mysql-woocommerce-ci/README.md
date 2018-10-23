@@ -24,10 +24,10 @@ docker network create webproxy
 version: '3.3'
 services:
     selenium:
-        image: selenium/standalone-chrome-debug
+        image: selenium/standalone-chrome
         container_name: selenium
         ports:
-        - "5900:5900"
+        - "4444"
     db:
         image: vindi/mysql-woocommerce-ci
         container_name: wordpress_db
@@ -48,8 +48,11 @@ networks:
             name: webproxy
 ```
 
-# Dúvidas
-Caso necessite de informações sobre a plataforma ou API por favor siga através do canal [Atendimento Vindi](http://atendimento.vindi.com.br/hc/pt-br)
+# Rodar os testes
+
+```
+composer test
+```
 
 # Créditos
 - [Vindi](https://github.com/vindi)
