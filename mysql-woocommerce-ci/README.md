@@ -48,7 +48,11 @@ networks:
             name: webproxy
 ```
 
+# Rodar os testes
 
+```
+composer test
+```
 
 # Créditos
 - [Vindi](https://github.com/vindi)
