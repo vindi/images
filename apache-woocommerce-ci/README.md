@@ -27,6 +27,7 @@ services:
         image: selenium/standalone-chrome-debug
         container_name: selenium
         ports:
+        - "4444"
         - "5900:5900"
     db:
         image: vindi/mysql-woocommerce-ci
@@ -47,9 +48,6 @@ networks:
         external:
             name: webproxy
 ```
-
-# Dúvidas
-Caso necessite de informações sobre a plataforma ou API por favor siga através do canal [Atendimento Vindi](http://atendimento.vindi.com.br/hc/pt-br)
 
 # Créditos
 - [Vindi](https://github.com/vindi)
