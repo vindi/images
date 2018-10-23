@@ -27,20 +27,20 @@ services:
         container_name: selenium
         ports:
         - "4444"
-    magento1db:
+    db:
         image: vindi/mysql-magento1-ci
         container_name: magento1_db
         ports:
         - "3306"
-    magento1web:
+    web:
         image: vindi/apache-magento1-ci
         container_name: vindi.local
         depends_on:
-        - magento1db
+        - db
         ports:
         - "443:443"
         links:
-        - magento1db:mysql
+        - db:mysql
 networks:
     default:
         external:
