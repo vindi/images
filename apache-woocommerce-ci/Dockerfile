@@ -112,9 +112,9 @@ RUN { \
         echo "  ServerAlias vindi.local"; \
         echo "  DocumentRoot /var/www/html"; \
         echo "</VirtualHost>"; \
-    } > /etc/apache2/sites-available/000-default.conf
+    } > /etc/apache2/sites-available/default.conf
 
-RUN a2ensite 000-default
+RUN a2ensite default
 
 RUN a2enmod ssl
 
@@ -129,6 +129,8 @@ RUN { \
         echo "      SSLCertificateFile /etc/ssl/certs/apache.crt"; \
         echo "      SSLCertificateKeyFile /etc/ssl/certs/apache.key"; \
         echo "      SSLCertificateChainFile /etc/ssl/certs/apache.crt"; \
+        echo "      LogLevel warn"; \
+        echo "      ErrorLog /var/www/html/error.log"; \
         echo "	</VirtualHost>"; \
         echo "</IfModule>"; \
     }  > /etc/apache2/sites-available/default-ssl.conf
@@ -140,9 +142,9 @@ RUN { \
         echo "	AllowOverride All"; \
         echo "	Require all granted"; \
         echo "</Directory>"; \
-    } > /etc/apache2/conf-available/document-root-directory.conf
+    } > /etc/apache2/conf-available/directory.conf
 
-RUN a2enconf "document-root-directory.conf"
+RUN a2enconf "directory.conf"
 
 RUN { \
         echo "<IfModule mod_rewrite.c>"; \
