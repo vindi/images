@@ -24,11 +24,10 @@ docker network create webproxy
 version: '3.3'
 services:
     selenium:
-        image: selenium/standalone-chrome-debug
+        image: selenium/standalone-chrome
         container_name: selenium
         ports:
         - "4444"
-        - "5900:5900"
     db:
         image: vindi/mysql-woocommerce-ci
         container_name: wordpress_db
@@ -47,6 +46,12 @@ networks:
     default:
         external:
             name: webproxy
+```
+
+# Rodar os testes
+
+```
+composer test
 ```
 
 # Créditos
