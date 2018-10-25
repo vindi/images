@@ -8,17 +8,11 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 COPY ./wordpress.tar.gz /var/www/html/
 COPY ./php.ini /usr/local/etc/php/conf.d/
 COPY ./docker-entrypoint.sh /usr/local/bin/
-COPY ./wait-for-it.sh /wait-for-it.sh
-RUN chmod +x /wait-for-it.sh
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
-# Install wp-cli
-RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-RUN chmod +x wp-cli.phar
-RUN mv wp-cli.phar /usr/local/bin/wp
 
 # Install codeception
 RUN curl -O https://codeception.com/codecept.phar
@@ -33,9 +27,6 @@ RUN apt-get update
 
 # Install Git
 RUN apt-get install -y git
-
-# Install wget
-RUN apt-get install -y wget
 
 # Install zip
 RUN apt-get install -y zip
