@@ -3,6 +3,5 @@
 set -e
 
 git pull
-composer update
 
 exec "$@"
