@@ -134,6 +134,15 @@ RUN { \
 RUN a2ensite default-ssl
 
 RUN { \
+        echo "<VirtualHost *:80>"; \
+        echo "   DocumentRoot /var/www/html"; \
+        echo "   ServerAdmin comunidade@vindi.com.br"; \
+        echo "	</VirtualHost>"; \
+    }  > /etc/apache2/sites-available/default.conf
+
+RUN a2ensite default
+
+RUN { \
         echo "<Directory /var/www/html>"; \
         echo "	AllowOverride All"; \
         echo "	Require all granted"; \
@@ -151,6 +160,7 @@ RUN echo "date.timezone = America/Sao_Paulo" > /usr/local/etc/php/conf.d/timezon
 
 
 EXPOSE 443
+EXPOSE 80
 
 
 CMD ["apache2-foreground"]
