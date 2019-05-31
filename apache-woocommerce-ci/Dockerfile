@@ -158,7 +158,7 @@ RUN { \
     } > /var/www/html/.htaccess
 
 RUN chmod -R 777 *
-RUN git clone -b develop https://github.com/vindi/vindi-woocommerce-subscriptions.git wp-content/plugins/vindi-woocommerce-subscriptions
+RUN git clone -b "${SEMAPHORE_GIT_BRANCH}" https://github.com/vindi/vindi-woocommerce-subscriptions.git wp-content/plugins/vindi-woocommerce-subscriptions
 
 WORKDIR /var/www/html/wp-content/plugins/vindi-woocommerce-subscriptions
 RUN composer install
